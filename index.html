@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Treats Bakery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        .products {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .product-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .product-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 280px;
+            text-align: center;
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            border-radius: 10px;
+        }
+
+        .product-card h3 {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .product-card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .price {
+            font-size: 16px;
+            font-weight: bold;
+            color: #d35400;
+            display: block;
+            margin: 10px 0;
+        }
+
+        .details-btn, .order-btn {
+            background: #2980b9;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        .details-btn:hover, .order-btn:hover {
+            background: #21618c;
+        }
+
+        /* Modal Styling */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 60%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .modal img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        .modal h2 {
+            margin: 10px 0;
+        }
+
+        .modal p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .modal span {
+            font-size: 16px;
+            font-weight: bold;
+            color: #d35400;
+            display: block;
+            margin-top: 10px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 22px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<section class="products">
+    <h2>Our Best-Selling Treats</h2>
+    <div class="product-container">
+
+        <div class="product-card" data-name="Chocolate Fudge Cake" data-description="A rich chocolate cake with layers of creamy fudge and a moist texture." data-image="chocolate_cake.jpg" data-price="$12.99 per slice">
+            <img src="chocolate_cake.jpg" alt="Chocolate Fudge Cake">
+            <h3>Chocolate Fudge Cake</h3>
+            <p>Rich chocolate cake with a creamy fudge layer.</p>
+            <span class="price">$12.99 per slice</span>
+            <button class="details-btn">View Details</button>
+            <button class="order-btn">Order Now</button>
+        </div>
+
+        <div class="product-card" data-name="Strawberry Danish" data-description="A flaky pastry filled with fresh strawberries and sweet cream cheese." data-image="strawberry_danish.jpg" data-price="$5.49 each">
+            <img src="strawberry_danish.jpg" alt="Strawberry Danish">
+            <h3>Strawberry Danish</h3>
+            <p>Flaky pastry filled with fresh strawberries and cream cheese.</p>
+            <span class="price">$5.49 each</span>
+            <button class="details-btn">View Details</button>
+            <button class="order-btn">Order Now</button>
+        </div>
+
+        <div class="product-card" data-name="Oatmeal Raisin Cookie" data-description="Soft-baked cookies made with oats, raisins, and a touch of cinnamon." data-image="oatmeal_cookie.jpg" data-price="$3.99 each">
+            <img src="oatmeal_cookie.jpg" alt="Oatmeal Raisin Cookie">
+            <h3>Oatmeal Raisin Cookie</h3>
+            <p>Soft-baked cookies with oats, raisins, and cinnamon.</p>
+            <span class="price">$3.99 each</span>
+            <button class="details-btn">View Details</button>
+            <button class="order-btn">Order Now</button>
+        </div>
+
+    </div>
+</section>
+
+
+<div class="modal" id="productModal">
+    <div class="modal-content">
+        <span class="close-btn">&times;</span>
+        <img id="modalImage" src="" alt="Product Image">
+        <h2 id="modalTitle"></h2>
+        <p id="modalDescription"></p>
+        <span id="modalPrice"></span>
+    </div>
+</div>
+
+<script>
+   
+    const detailsBtns = document.querySelectorAll(".details-btn");
+    const modal = document.getElementById("productModal");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalDescription = document.getElementById("modalDescription");
+    const modalImage = document.getElementById("modalImage");
+    const modalPrice = document.getElementById("modalPrice");
+    const closeModal = document.querySelector(".close-btn");
+
+   
+    detailsBtns.forEach(btn => {
+        btn.addEventListener("click", function () {
+            let productCard = this.parentElement;
+
+            modalTitle.innerText = productCard.getAttribute("data-name");
+            modalDescription.innerText = productCard.getAttribute("data-description");
+            modalImage.src = productCard.getAttribute("data-image");
+            modalPrice.innerText = productCard.getAttribute("data-price");
+
+            modal.style.display = "flex"; 
+        });
+    });
+
+   
+    closeModal.addEventListener("click", function () {
+        modal.style.display = "none";
+    });
+
+  
+    window.addEventListener("click", function (event) {
+        if (event.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+
+    
+    const orderBtns = document.querySelectorAll(".order-btn");
+    orderBtns.forEach(btn => {
+        btn.addEventListener("click", function () {
+            let productCard = this.parentElement;
+            let productName = productCard.getAttribute("data-name");
+            alert("You have added " + productName + " to your order!");
+        });
+    });
+</script>
+
+</body>
+</html>
